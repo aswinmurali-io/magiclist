@@ -1,1 +1,0 @@
-cython magiclist.py -3

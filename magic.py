@@ -17,6 +17,12 @@ class MagicList(object):
         except FileNotFoundError:
             create_cache()
 
+    def get(self, key: str) -> any:
+        try:
+            return open(f"{MAGIC_DIR}{key}.magic_data", 'w').read()
+        except FileNotFoundError:
+            pass
+
     def append_all(self,
                    contents: dict,
                    maxthread: int = default_maxthread) -> None:
