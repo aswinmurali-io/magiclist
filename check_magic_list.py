@@ -15,8 +15,9 @@ def main():
 
     e = MagicListParallel("test")
     e.parallel_append({str(i): "hi" for i in range(30)})
-    e.get("test1")
+    print(e.get("1"))
     print(list(e.get_keys()))
+    print(e.parallel_get(["1", "2"]))
 
 
 if __name__ == "__main__":
