@@ -1,10 +1,22 @@
-from magiclist import MagicList
+from magiclist_ray import MagicList
+from magiclist_ray.contants import MAX_THREADS
+from magiclist_ray.magic_parallel import MagicListParallel
+import ray
+
+ray.init(num_cpus=MAX_THREADS)
 
 
 def main():
-    t = MagicList()
-    t.append_all({str(i): "test" for i in range(2)})
-    t.print()
+    # t = MagicList("test")
+    # t.append('t', '2')
+    # t.delete(0)
+    # t.get(1)
+    # print(list(t.get_keys()))
+
+    e = MagicListParallel("test")
+    e.parallel_append({str(i): "hi" for i in range(30)})
+    e.get("test1")
+    print(list(e.get_keys()))
 
 
 if __name__ == "__main__":

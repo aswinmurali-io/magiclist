@@ -8,6 +8,7 @@ import os
 import multiprocessing as mp
 
 MAGIC_DIR: str = '.magic_datas/'
+MAGIC_EXT: str = '.magic_data'
 default_maxthread: int = 8
 
 
