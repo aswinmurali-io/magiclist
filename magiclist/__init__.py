@@ -2,14 +2,17 @@ import glob
 import threading
 import multiprocessing as mp
 
-from _magic_handles import MAGIC_DIR, default_maxthread, magic_print, \
+from magiclist._magic_handles import MAGIC_DIR, default_maxthread, magic_print, \
     create_cache
+
+from magiclist.ramdisk import generate_ram_disk
 
 
 class MagicList(object):
     def __init__(self):
         self.undo_history: list = []
         create_cache()
+        generate_ram_disk()
 
     def append(self, key: str, content: any) -> None:
         try:
@@ -88,9 +91,3 @@ class MagicList(object):
 
     def print_async(self, maxthread: int = default_maxthread) -> None:
         threading.Thread(target=self.print, args=()).start()
-
-
-if __name__ == "__main__":
-    t = MagicList()
-    t.append_all({str(i): "test" for i in range(2000)})
-    t.print()

@@ -8,7 +8,7 @@
             "name": "Python: Current File",
             "type": "python",
             "request": "launch",
-            "program": "${file}",
+            "program": "check_magic_list.py",
             "console": "integratedTerminal"
         }
     ]
