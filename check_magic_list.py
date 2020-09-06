@@ -1,23 +1,32 @@
 from magiclist_ray import MagicList
-from magiclist_ray.contants import MAX_THREADS
+from magiclist_ray.contants import DIR
 from magiclist_ray.magic_parallel import MagicListParallel
-import ray
 
-ray.init(num_cpus=MAX_THREADS)
+import time
+import shutil
+import os
 
 
 def main():
-    # t = MagicList("test")
-    # t.append('t', '2')
-    # t.delete(0)
-    # t.get(1)
-    # print(list(t.get_keys()))
+    try:
+        shutil.rmtree(DIR)
+    except:
+        pass
+    os.mkdir(DIR)
+    start = time.time()
+    t = MagicList("test")
+    [t.append(str(i), 'hi') for i in range(50)]
+    [t.get(i) for i in range(50)]
+    print(time.time() - start)
 
+    # shutil.rmtree(DIR)
+    # os.mkdir(DIR)
+
+    start = time.time()
     e = MagicListParallel("test")
-    e.parallel_append({str(i): "hi" for i in range(30)})
-    print(e.get("1"))
-    print(list(e.get_keys()))
-    print(e.parallel_get(["1", "2"]))
+    e.parallel_append({str(i): 'hi' for i in range(50)})
+    e.parallel_get([str(i) for i in range(50)])
+    print(time.time() - start)
 
 
 if __name__ == "__main__":
