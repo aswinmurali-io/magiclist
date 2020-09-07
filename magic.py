@@ -1,3 +1,4 @@
+import glob
 import os.path
 import threading
 
@@ -10,6 +11,9 @@ class Magic(object):
         if not os.path.exists(self.name):
             os.mkdir(self.name)
 
+        for i in glob.glob(f'{self.name}/*'):
+            self.get(i[len(self.name) + 1:])
+
     def append(self, key: str, item: any) -> None:
         self.memory[key] = [item, 0, 0]
         threading.Thread(target=lambda: open(f'{self.name}/{key}', 'w').write(
@@ -17,8 +21,9 @@ class Magic(object):
 
     def sync(self, key: str, item: any, access_count: int,
              trend_ratio: int) -> None:
+        _fileptr = open(f'{self.name}/{key}', 'w')
         self.memory[key] = [item, access_count, trend_ratio]
-        threading.Thread(target=lambda: open(f'{self.name}/{key}', 'w').write(
+        threading.Thread(target=lambda: _fileptr.write(
             f'{item} {access_count} {trend_ratio}')).start()
 
     def append_parallel(self, items: dict) -> None:
@@ -28,19 +33,14 @@ class Magic(object):
     def get(self, key: str) -> any:
         try:
             self.memory[key][1] += 1
-            self.sync(key, self.memory[key][0], self.memory[key][1], self.memory[key][2])
-            print(self.memory)
-            return self.memory[key][0]
+            self.sync(key, self.memory[key][0], self.memory[key][1],
+                      self.memory[key][2])
+            return self.memory[key]
         except KeyError:
             try:
                 data = open(f'{self.name}/{key}').read().split()
-                self.memory[key] = [
-                    self.memory[key][0],
-                    int(data[1]) + 1,
-                    int(data[2])
-                ]
-                self.append(key, self.memory[key][0])
-                return self.memory[key]
+                self.sync(key, data[0], int(data[1]), int(data[2]))
+                return self.memory
             except FileNotFoundError:
                 pass
         return None
@@ -48,13 +48,30 @@ class Magic(object):
     def gets(self, keys: list) -> list:
         return [self.get(key) for key in keys]
 
+    def purge(self):
+        i = []
+        for key in [i for i in self.memory]:
+            i.append(self.memory[key][1])
+        low_access = min(i)
+        for key in list(self.memory):
+            if self.memory[key][1] == low_access:
+                del self.memory[key]
+
 
 import time
 
 start = time.time()
 test = Magic("test")
-[test.append(f'{i}', i) for i in range(5)]
+# [test.append(f'{i}', i) for i in range(5)]
 print(time.time() - start)
 
 for i in range(4):
     print(test.get("2"))
+
+print(test.purge())
+
+print(test.memory)
+
+test.get("1")
+
+print(test.memory)
