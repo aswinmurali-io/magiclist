@@ -4,9 +4,9 @@ from Cython.Build import cythonize
 ext_modules = [
     Extension(
         "magic",
-        ["magic.pyx"],
-        extra_compile_args=['-fopenmp'],
-        extra_link_args=['-fopenmp'],
+        ["magic.py"],
+        extra_compile_args=[],
+        extra_link_args=[],
     )
 ]
 

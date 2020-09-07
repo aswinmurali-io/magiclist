@@ -2,6 +2,8 @@ import glob
 import os.path
 import threading
 
+from numba import jit
+
 
 class Magic(object):
     def __init__(self, name: str):
@@ -10,9 +12,12 @@ class Magic(object):
         self.memory: dict = {}
         if not os.path.exists(self.name):
             os.mkdir(self.name)
+        self.load()
 
+    def load(self):
         for i in glob.glob(f'{self.name}/*'):
             self.get(i[len(self.name) + 1:])
+        return True
 
     def append(self, key: str, item: any) -> None:
         self.memory[key] = [item, 0, 0]
@@ -48,27 +53,30 @@ class Magic(object):
     def gets(self, keys: list) -> list:
         return [self.get(key) for key in keys]
 
-    def purge(self):
-        i = []
-        for key in [i for i in self.memory]:
-            i.append(self.memory[key][1])
+    def __purge(self):
+        i = [self.memory[key][1] for key in [i for i in self.memory]]
         low_access = min(i)
         for key in list(self.memory):
             if self.memory[key][1] == low_access:
                 del self.memory[key]
 
+    def purge(self):
+        threading.Thread(target=self.purge, args=(), daemon=True).start()
+
 
 import time
 
+
 start = time.time()
 test = Magic("test")
-# [test.append(f'{i}', i) for i in range(5)]
+
 print(time.time() - start)
 
 for i in range(4):
     print(test.get("2"))
 
-print(test.purge())
+for i in range(6):
+    print(test.purge())
 
 print(test.memory)
 
