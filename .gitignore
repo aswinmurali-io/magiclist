@@ -1,4 +1,6 @@
 .magic_datas/
+dump
+test
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
