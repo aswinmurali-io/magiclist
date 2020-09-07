@@ -2,8 +2,6 @@ import glob
 import os.path
 import threading
 
-from numba import jit
-
 
 class Magic(object):
     def __init__(self, name: str):
