@@ -1,6 +1,5 @@
 from magic import Magic
 
-
 test: Magic = Magic("test")
 
 print(test.loaded)
