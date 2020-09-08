@@ -1,2 +1,3 @@
 # magiclist
- Next gen list data type for today's programming
+
+Next gen list data type for today's programming

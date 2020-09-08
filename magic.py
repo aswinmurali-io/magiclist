@@ -8,12 +8,15 @@ class Magic(object):
         super().__init__()
         self.name: str = name
         self.memory: dict = {}
-        if not os.path.exists(self.name):
-            os.mkdir(self.name)
-        self.load()
+        self.loaded: bool = self.load()
 
     def load(self):
-        for i in glob.glob(f'{self.name}/*'):
+        if not os.path.exists(self.name):
+            os.mkdir(self.name)
+        items = glob.glob(f'{self.name}/*')
+        if len(items) < 1:
+            return False
+        for i in items:
             self.get(i[len(self.name) + 1:])
         return True
 
@@ -62,22 +65,13 @@ class Magic(object):
         threading.Thread(target=self.purge, args=(), daemon=True).start()
 
 
-import time
+test: Magic = Magic("test")
 
+print(test.loaded)
+if not test.loaded:
+    test.append_parallel({f'{i}': i for i in range(10)})
 
-start = time.time()
-test = Magic("test")
-
-print(time.time() - start)
-
-for i in range(4):
-    print(test.get("2"))
-
-for i in range(6):
-    print(test.purge())
-
+test.get("2")
 print(test.memory)
-
 test.get("1")
-
 print(test.memory)
