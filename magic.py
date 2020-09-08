@@ -1,16 +1,24 @@
+# Magiclist is an awesome data type !
+
 import glob
 import os.path
 import threading
 
+__file__: str = 'magic.py'
+__name__: str = 'magic'
+__version__: str = '0.0.1'
+
 
 class Magic(object):
     def __init__(self, name: str):
-        """Magic is the class that contains the magiclist datatype. Magiclist has the ability
-        to release memory on a per element basis rather than the object itself This way magiclist
-        can store a large about of data inside it without running out of memory. When the magiclist
-        runs out of memory, the purge() function can be called and all the inactive elements are
-        suspended from the memory and later on returned when needed. Magiclist can be used for
-        handling BIG data, perfect for data science.
+        """Magic is the class that contains the magiclist datatype. It is capable for storing
+        persistent data. Magiclist has the ability to release memory on a per element basis
+        rather than the object itself! This way magiclist can store a large about of data inside
+        it without running out of memory. When magiclist runs out of memory, then purge()
+        function can be called and all the inactive elements are suspended from the memory and
+        later on returned when needed. Magiclist can be used for handling BIG data, perfect
+        for data science! Multiple programs can used the same magiclist data shared with their
+        own in-memory cache!
 
         Args:
             name (str): The label used for accessing/creating the state of the magiclist.
@@ -117,17 +125,3 @@ class Magic(object):
         """The purge() function will release less used elements from memory reducing the memory size of the list.
         """
         threading.Thread(target=self.__purge, args=(), daemon=True).start()
-
-
-test: Magic = Magic("test")
-
-print(test.loaded)
-if not test.loaded:
-    test.append_parallel({f'{i}': i for i in range(10)})
-
-test.get("2")
-print(test.memory)
-test.get("1")
-test.purge()
-
-print(test.memory)
