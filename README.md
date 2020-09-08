@@ -7,3 +7,9 @@ it without running out of memory. When magiclist runs out of memory, then purge(
 function can be called and all the inactive elements are suspended from the memory and
 later on returned when needed. Magiclist can be used for handling BIG data, perfect
 for data science! Multiple programs can used the same magiclist data shared with their own in-memory cache!
+
+
+docker build -t magiclist:latest
+python3 -m pip install -r requirements.txt
+make html
+python3 setup.py buid_ext --inplace
