@@ -1,11 +1,11 @@
-"""Magiclist is an awesome data type ! It is capable for storing
-persistent data. Magiclist has the ability to release memory on a per element basis
-rather than the object itself! This way magiclist can store a large about of data inside
-it without running out of memory. When magiclist runs out of memory, then purge()
-function can be called and all the inactive elements are suspended from the memory and
-later on returned when needed. Magiclist can be used for handling BIG data, perfect
-for data science! Multiple programs can used the same magiclist data shared with their
-own in-memory cache!
+"""Magiclist is an awesome data type ! Magiclist has the ability to release
+memory on a per element basis rather than the object itself! This way magiclist
+can store a large amount of data inside it without running out of memory. When
+magiclist runs out of memory, then purge() function can be called and all the
+inactive elements are suspended from the memory and later on returned when needed.
+It is capable for storing persistent data. Magiclist can be used for handling
+BIG data, perfect for data science! Multiple programs can share the same magiclist
+data with their own in-memory cache!
 """
 
 import glob
@@ -116,8 +116,7 @@ class Magic(object):
         return [self.get(key) for key in keys]
 
     def __purge(self):
-        i = [self.memory[key][1] for key in [i for i in self.memory]]
-        low_access = min(i)
+        low_access: int = min([self.memory[key][1] for key in [i for i in self.memory]])
         for key in list(self.memory):
             if self.memory[key][1] == low_access:
                 del self.memory[key]
