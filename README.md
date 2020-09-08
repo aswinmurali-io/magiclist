@@ -8,8 +8,14 @@ function can be called and all the inactive elements are suspended from the memo
 later on returned when needed. Magiclist can be used for handling BIG data, perfect
 for data science! Multiple programs can used the same magiclist data shared with their own in-memory cache!
 
+### Docker support !
+```docker build -t magiclist```
 
-docker build -t magiclist:latest
-python3 -m pip install -r requirements.txt
-make html
-python3 setup.py buid_ext --inplace
+### Install the deps
+```python3 -m pip install -r requirements.txt```
+
+### Generate documentation
+```make html```
+
+### Compile magiclist for better speed
+```python3 setup.py buid_ext --inplace```
