@@ -1,8 +1,9 @@
 from magic import Magic
 
 # creating a magic list, the 'test' string is used as a identifier for sharing instance
-test = Magic("test", {"45": "$5"})
-test2 = Magic("test2", "demo-test")
+test = Magic("test")
+test2 = Magic("test", "demo-test")
+
 test2.append("new", "new")
 
 print("test", test["new"])
