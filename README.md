@@ -12,10 +12,10 @@ data with their own in-memory cache!
 ```docker build -t magiclist```
 
 ### Install the deps
-```python3 -m pip install -r requirements.txt```
+```make deps```
 
 ### Generate documentation
 ```make html```
 
 ### Compile magiclist for better speed
-```python3 setup.py buid_ext --inplace```
+```make compile```

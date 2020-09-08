@@ -20,6 +20,10 @@ help:
 	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 
 PYTHON = python
+PIP_TXT = requirements.txt
 
 compile:
 	${PYTHON} setup.py build_ext --inplace
+
+deps:
+	${PYTHON} -m pip install -r ${PIP_TXT}
