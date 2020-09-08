@@ -1,6 +1,7 @@
 .magic_datas/
 dump
 test
+test2
 docs
 magic.c
 _build/

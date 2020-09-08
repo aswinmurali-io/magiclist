@@ -1,8 +1,5 @@
-# Minimal makefile for Sphinx documentation
-#
+# Makefile for magiclist
 
-# You can set these variables from the command line, and also
-# from the environment for the first two.
 SPHINXOPTS    ?=
 SPHINXBUILD   ?= sphinx-build
 SOURCEDIR     = .
@@ -27,3 +24,4 @@ compile:
 
 deps:
 	${PYTHON} -m pip install -r ${PIP_TXT}
+	${PYTHON} setup.py build_ext --inplace

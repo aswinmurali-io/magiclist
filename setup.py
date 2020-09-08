@@ -12,7 +12,7 @@ ext_modules = [
 
 setup(
     name='magiclist',
-    packages=['magiclist'],
+    packages=['.'],
     version='0.1',
     license='Apache',
     author='Aswin Murali',
@@ -35,5 +35,5 @@ setup(
         'Programming Language :: Python :: 3.8',
     ],
     ext_modules=cythonize(ext_modules),
-    install_requires=open('requirements.txt').split('\n'),
+    install_requires=open('requirements.txt').read().split('\n'),
 )
