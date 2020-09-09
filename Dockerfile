@@ -7,4 +7,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-CMD [ "python", "./src/demo.py" ]
+CMD [ "python", "./magiclist/demo.py" ]
