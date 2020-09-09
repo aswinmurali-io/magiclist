@@ -15,7 +15,18 @@
 	},
 
 	// Add the IDs of extensions you want installed when the container is created.
-	"extensions": []
+	"extensions": [
+		"usernamehw.errorlens",
+		"ms-python.vscode-pylance",
+		"njpwerner.autodocstring",
+		"searking.preview-vscode",
+		"eamodio.gitlens",
+		"donjayamanne.githistory",
+		"felipecaputo.git-project-manager",
+		"github.vscode-pull-request-github",
+		"ms-azuretools.vscode-docker",
+		"ms-vscode-remote.remote-containers"
+	]
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
 	// "forwardPorts": [],
