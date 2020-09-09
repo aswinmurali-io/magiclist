@@ -4,7 +4,7 @@ from magic import Magic
 test = Magic("test")
 test2 = Magic("test", "demo-test")
 
-test2.append("new", "new")
+test2.insert("new", "new")
 
 print("test", test["new"])
 
@@ -13,9 +13,9 @@ print(test.loaded)
 
 print(test.memory)
 
-# append items in a parallel fashion
+# insert items in a parallel fashion
 if not test.loaded:
-    test.append_parallel({f'{i}': i for i in range(10)})
+    test.insert_parallel({f'{i}': i for i in range(10)})
 
 print("45545", test + test2)
 
@@ -35,6 +35,6 @@ test.get("1")
 # to clean the in-memory cache by suspending unused elements
 test.purge()
 
-test.export_cache_list()
+test.save_cache()
 
 print(test.memory)

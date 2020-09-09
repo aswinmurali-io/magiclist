@@ -26,32 +26,35 @@ class Magic(object):
         """
         super().__init__()
         self.name: str = [name]
-        self.pointer_path = f'{name}/pointers'
+        self.pointer_path: str = f'{name}/pointers'
         self.memory: dict = {}
         self.cache_fileptr: open = None
         self.loaded: bool = self.load_cache(
             cachename if cachename is not None else name)
         self.length: int = 0
+        self.lock: bool = False
         if items is not None:
             self.append_parallel(items)
 
-    def __len__(self):
+    def __len__(self) -> int:
         return self.length
 
-    def __getitem__(self, key):
+    def __getitem__(self, key: str) -> any:
         return self.get(key)
 
-    def __add__(self, obj):
+    def __add__(self, obj: object) -> object:
         copy = self
         copy.name += obj.name
         copy.name = list(set(copy.name))  # Get unique pointers only !
         return copy
 
-    def __iadd__(self, obj):
-        self.name += obj.name
-        self.name = list(set(self.name))  # Get unique pointers only !
-        open(self.pointer_path, 'w').write('\n'.join(self.name))
-        return self
+    def __iadd__(self, obj: object) -> object:
+        if not self.lock:
+            self.name += obj.name
+            self.name = list(set(self.name))  # Get unique pointers only !
+            open(self.pointer_path, 'w').write('\n'.join(self.name))
+            return self
+        return None
 
     def load_cache(self, cachename: str) -> bool:
         """The load_cache(...) function can be used to load the previous data state from the storage device.
@@ -81,22 +84,27 @@ class Magic(object):
         return count == len(self.name)
 
     def reset_cache(self) -> None:
+        """The reset_cache(...) cleans the in-memory cache
+        """
         self.memory.clear()
 
-    def export_cache_list(self) -> None:
+    def save_cache(self) -> None:
+        """The save_cache(...) saves a references of the in-memory cache
+        """
         self.cache_fileptr.write('\n'.join([key for key in self.memory]))
 
-    def append(self, key: str, item: any) -> None:
-        """The append(...) function can be used to append a new element into the magic list.
+    def insert(self, key: str, item: any) -> None:
+        """The insert(...) function can be used to insert a new element into the magic list.
 
         Args:
             key (str): The key used for accessing the data.
             item (any): The content to store in the magic list with that above key as reference.
         """
-        self.memory[key] = [item, 0, 0]
-        self.length += 1
-        threading.Thread(target=lambda: open(f'{self.name[0]}/{key}', 'w').
-                         write(f'{item} 0 0')).start()
+        if not self.lock:
+            self.memory[key] = [item, 0, 0]
+            self.length += 1
+            threading.Thread(target=lambda: open(f'{self.name[0]}/{key}', 'w').
+                             write(f'{item} 0 0')).start()
 
     def sync(self, key: str, item: any, access_count: int,
              trend_ratio: int) -> None:
@@ -114,14 +122,14 @@ class Magic(object):
         threading.Thread(target=lambda: _fileptr.write(
             f'{item} {access_count} {trend_ratio}')).start()
 
-    def append_parallel(self, items: dict) -> None:
-        """The append_parallel(...) function can be used to batch append elements to the list.
+    def insert_parallel(self, items: dict) -> None:
+        """The insert_parallel(...) function can be used to batch insert elements to the list.
 
         Args:
             items (dict): The dict of data to be added to the magiclist.
         """
         for key in items:
-            self.append(key, items[key])
+            self.insert(key, items[key])
             self.length += 1
 
     def get(self, key: str) -> any:
@@ -159,7 +167,7 @@ class Magic(object):
         """
         return [self.get(key) for key in keys]
 
-    def __purge(self):
+    def __purge(self) -> None:
         try:
             low_access: int = min(
                 [self.memory[key][1] for key in [i for i in self.memory]])
@@ -170,7 +178,7 @@ class Magic(object):
             # ValueError: min() arg is an empty sequence
             return
 
-    def purge(self):
+    def purge(self) -> None:
         """The purge() function will release less used elements from memory reducing the memory size of the list.
         """
         threading.Thread(target=self.__purge, args=(), daemon=True).start()

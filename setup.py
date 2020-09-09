@@ -34,6 +34,6 @@ setup(
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
     ],
-    ext_modules=cythonize(ext_modules),
-    install_requires=open('requirements.txt').read().split('\n'),
+    ext_modules=cythonize(ext_modules, language_level="3"),
+    # install_requires=open('requirements.txt').read().split('\n'),
 )
