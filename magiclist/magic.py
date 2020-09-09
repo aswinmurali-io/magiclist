@@ -9,7 +9,9 @@ BIG data, perfect for data science! Multiple programs can share the same magicli
 data with their own in-memory cache!
 """
 
+import glob
 import os.path
+import random
 import threading
 
 __file__: str = 'magic.py'
@@ -30,7 +32,7 @@ class Magic(object):
         self.memory: dict = {}
         self.cache_fileptr: open = None
         self.loaded: bool = self.load_cache(
-            cachename if cachename is not None else name)
+            f'cache_{cachename}' if cachename is not None else f'cache_{name}')
         self.length: int = 0
         self.lock: bool = False
         if items is not None:
@@ -48,9 +50,23 @@ class Magic(object):
         copy.name = list(set(copy.name))  # Get unique pointers only !
         return copy
 
+    def __sub__(self, obj: object) -> object:
+        copy = self
+        copy.name = [item for item in obj.name if item not in copy.name]
+        copy.name = list(set(copy.name))  # Get unique pointers only !
+        return copy
+
     def __iadd__(self, obj: object) -> object:
         if not self.lock:
             self.name += obj.name
+            self.name = list(set(self.name))  # Get unique pointers only !
+            open(self.pointer_path, 'w').write('\n'.join(self.name))
+            return self
+        return None
+
+    def __isub__(self, obj: object) -> object:
+        if not self.lock:
+            self.name = [item for item in obj.name if item not in self.name]
             self.name = list(set(self.name))  # Get unique pointers only !
             open(self.pointer_path, 'w').write('\n'.join(self.name))
             return self
@@ -105,6 +121,7 @@ class Magic(object):
             self.length += 1
             threading.Thread(target=lambda: open(f'{self.name[0]}/{key}', 'w').
                              write(f'{item} 0 0')).start()
+        # open(f'{self.name[0]}/{key}', 'w').write(f'{item} 0 0')
 
     def sync(self, key: str, item: any, access_count: int,
              trend_ratio: int) -> None:
@@ -131,6 +148,22 @@ class Magic(object):
         for key in items:
             self.insert(key, items[key])
             self.length += 1
+
+    def random(self) -> any:
+        """The random() function returns a random element from the magiclist
+
+        Returns:
+            any: returns any element
+        """
+        files = []
+        print(self.name)
+        for key in self.name:
+            if key == '':
+                return None
+            files.extend(glob.glob(f'{key}/*'))
+        # remove special elements from taking part in random like pointers, cache, etc
+        files = [x for x in files if 'cache_' not in x and 'pointers' not in x]
+        return self.get(random.choice(files).split('/')[1])
 
     def get(self, key: str) -> any:
         """The get(...) function is used to get an element from the magiclist via the key.

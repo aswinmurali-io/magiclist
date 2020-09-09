@@ -13,7 +13,8 @@
 import os
 import sys
 import guzzle_sphinx_theme
-sys.path.insert(0, os.path.abspath('.'))
+
+sys.path.insert(0, os.path.abspath('magiclist'))
 
 # -- Project information -----------------------------------------------------
 
@@ -49,9 +50,8 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 html_theme_path = guzzle_sphinx_theme.html_theme_path()
 html_theme = 'guzzle_sphinx_theme'
 html_theme_options = {
-    # Set the name of the project to appear in the sidebar
     "project_nav_name": "MagicList",
-    "globaltoc_collapse": False,
+    "globaltoc_collapse": True,
     "projectlink": "https://github.com/aswinmurali-io/magiclist",
 }
 

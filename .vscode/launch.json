@@ -8,7 +8,7 @@
             "name": "Python: Current File",
             "type": "python",
             "request": "launch",
-            "program": "demo.py",
+            "program": "magiclist/demo.py",
             "console": "integratedTerminal"
         }
     ]

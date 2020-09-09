@@ -10,12 +10,10 @@ MagicList's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-.. automodule:: magic
+.. automodule:: magiclist.magic
    :members:
-   :undoc-members:
    :show-inheritance:
 
-.. automodule:: magic.Magic
+.. autoclass:: magiclist.magic.Magic
    :members:
-   :undoc-members:
    :show-inheritance:

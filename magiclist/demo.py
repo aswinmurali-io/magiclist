@@ -1,8 +1,8 @@
-from magic import Magic
+from magiclist.magic import Magic
 
 # creating a magic list, the 'test' string is used as a identifier for sharing instance
 test = Magic("test")
-test2 = Magic("test", "demo-test")
+test2 = Magic("test2", "demo")
 
 test2.insert("new", "new")
 
@@ -38,3 +38,19 @@ test.purge()
 test.save_cache()
 
 print(test.memory)
+
+print(">>>>", test.random())
+
+print(test.get("0"))
+
+test -= test2
+
+test.lock = True
+test.insert("lock_test", "0")
+print(test.memory)
+
+test.lock = False
+test2.insert("unloc4", "4545454")
+print(test2.memory)
+
+print(test2.get('unloc4'))

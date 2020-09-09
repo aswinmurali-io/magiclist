@@ -1,11 +1,6 @@
-.magic_datas/
-dump
+# Project-based ignore
 test
 test2
-docs
-magic.c
-_build/
-
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -13,6 +8,7 @@ __pycache__/
 *$py.class
 
 # C extensions
+*.c
 *.so
 *.exe
 

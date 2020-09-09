@@ -9,13 +9,21 @@ BIG data, perfect for data science! Multiple programs can share the same magicli
 data with their own in-memory cache!
 
 ### Docker support !
-```docker build -t magiclist```
+```bash
+docker build -t magiclist
+```
 
 ### Install the deps
-```make deps```
+```bash
+python setup.py install_deps
+```
 
 ### Generate documentation
-```make html```
+```bash
+python setup.py build_sphinx
+```
 
 ### Compile magiclist for better speed
-```make compile```
+```bash
+python setup.py build_ext
+```
