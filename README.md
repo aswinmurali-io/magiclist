@@ -1,4 +1,5 @@
 # Magic List
+
 Magiclist is an awesome data type ! Magiclist has the ability to release
 memory on a per element basis rather than the object itself! This way magiclist
 can store a large amount of data inside it without running out of memory. When
@@ -8,22 +9,20 @@ It is capable for storing persistent data. Magiclist can be used for handling
 BIG data, perfect for data science! Multiple programs can share the same magiclist
 data with their own in-memory cache!
 
-### Docker support !
-```bash
-docker build -t magiclist
-```
-
 ### Install the deps
+
 ```bash
-python setup.py install_deps
+pip install -r requirements.txt
 ```
 
 ### Generate documentation
+
 ```bash
 python setup.py build_sphinx
 ```
 
 ### Compile magiclist for better speed
+
 ```bash
 python setup.py build_ext
 ```
