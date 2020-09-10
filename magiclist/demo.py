@@ -1,4 +1,4 @@
-from magiclist.magic import Magic
+from magic import Magic
 
 # creating a magic list, the 'test' string is used as a identifier for sharing instance
 test = Magic("test")

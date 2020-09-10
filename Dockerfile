@@ -3,6 +3,7 @@ FROM python:3
 WORKDIR /usr/src/app
 
 COPY . .
-RUN python setup.py install_deps
+
+RUN python -m pip install -r requirements.txt
 
 CMD [ "python", "./magiclist/demo.py" ]
