@@ -194,4 +194,4 @@ class Magic(object):
     def purge(self) -> None:
         """The purge() function will release less used elements from memory reducing the memory size of the list.
         """
-        threading.Thread(target=self.__purge, args=()).start()
+        threading.Thread(target=self.__purge, args=(), daemon=True).start()

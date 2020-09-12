@@ -4,7 +4,3 @@ class MagicListLocked(Warning):
 
 class MagicListKeyNotFound(Warning):
     pass
-
-
-class MagicListIOPermissionDenied(Warning):
-    pass
