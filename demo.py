@@ -74,4 +74,6 @@ print(test.get_keys())
 
 test.purge()
 
-print(test.memory)
+test["o"] = "P"
+
+del test['o']

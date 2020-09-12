@@ -50,6 +50,33 @@ class Magic(object):
     def __getitem__(self, key: str) -> any:
         return self.get(key)
 
+    def __setitem__(self, key: str, item: str) -> None:
+        return self.insert(key, item)
+
+    def __delitem__(self, key: str) -> bool:
+        return self.remove(key)
+
+    def remove(self, key: str) -> bool:
+        """The remove(...) function can be used to delete a item from the magiclist.
+
+        Args:
+            key (str): The key to delete from the magiclist
+
+        Returns:
+            bool: The status after the delete process.
+        """
+        try:
+            del self.memory[key]
+        except KeyError:
+            pass
+        for name in self.name:
+            try:
+                os.remove(f'{name}/{key}')
+                return True
+            except FileNotFoundError:
+                warnings.warn(f'Unable to delete the key "{key}" from disk in magiclist "{self.name[0]}"', MagicListKeyNotFound)
+        return False
+
     def __add__(self, obj: object) -> object:
         copy = Magic('temp')
         copy.name = self.name.copy()
