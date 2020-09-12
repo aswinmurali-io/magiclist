@@ -6,4 +6,4 @@ COPY . .
 
 RUN python -m pip install -r requirements.txt
 
-CMD [ "python", "./magiclist/demo.py" ]
+CMD [ "python", "./demo.py" ]
