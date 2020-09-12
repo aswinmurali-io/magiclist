@@ -9,9 +9,7 @@ BIG data, perfect for data science! Multiple programs can share the same magicli
 data with their own in-memory cache!
 """
 
-import glob
 import os.path
-import random
 import _thread
 import threading
 import warnings
@@ -179,7 +177,6 @@ class Magic(object):
 
     def __purge(self) -> None:
         try:
-            # print("54", memory)
             low_access: int = min([self.memory[key][1] for key in [i for i in self.memory]])
             for key in list(self.memory):
                 if self.memory[key][1] == low_access:
