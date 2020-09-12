@@ -51,13 +51,13 @@ class Magic(object):
         return self.get(key)
 
     def __add__(self, obj: object) -> object:
-        copy = Magic()
+        copy = Magic('temp')
         copy.name = self.name.copy()
         copy.name += [name for name in obj.name if name not in copy.name]
         return copy
 
     def __sub__(self, obj: object) -> object:
-        copy = Magic()
+        copy = Magic('temp')
         copy.name = self.name.copy()
         copy.name = [name for name in obj.name if name not in copy.name]
         return copy
@@ -77,6 +77,17 @@ class Magic(object):
                 file.write(' '.join(self.name))
             return self
         return None
+
+    def get_keys(self) -> list:
+        """The get_keys() function will return all the keys in that current list.
+
+        Returns:
+            list: Returns a list of all the keys in a python list.
+        """
+        keys = []
+        for name in self.name:
+            keys.extend([key for key in os.listdir(name)])
+        return keys
 
     def load(self) -> bool:
         """The load() function can be used to load the previous data state from the storage device.

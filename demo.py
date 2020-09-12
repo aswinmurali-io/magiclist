@@ -70,6 +70,8 @@ test2 = Magic("hi2")
 print(test.get("7"))
 print(test.memory)
 
+print(test.get_keys())
+
 test.purge()
 
 print(test.memory)
