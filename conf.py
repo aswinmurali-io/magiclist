@@ -12,7 +12,7 @@
 #
 import os
 import sys
-import guzzle_sphinx_theme
+# import guzzle_sphinx_theme
 
 sys.path.insert(0, os.path.abspath('magiclist'))
 
@@ -45,14 +45,19 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-# html_theme = 'alabaster'
+html_theme = 'alabaster'
 
-html_theme_path = guzzle_sphinx_theme.html_theme_path()
-html_theme = 'guzzle_sphinx_theme'
+# html_theme_path = guzzle_sphinx_theme.html_theme_path()
+# html_theme = 'guzzle_sphinx_theme'
+# html_theme_options = {
+#     "project_nav_name": "MagicList",
+#     "globaltoc_collapse": True,
+#     "projectlink": "https://github.com/aswinmurali-io/magiclist",
+# }
+
 html_theme_options = {
-    "project_nav_name": "MagicList",
-    "globaltoc_collapse": True,
-    "projectlink": "https://github.com/aswinmurali-io/magiclist",
+    'github_user': 'aswinmurali-io',
+    'github_repo': 'magiclist',
 }
 
 # Add any paths that contain custom static files (such as style sheets) here,
