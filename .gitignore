@@ -1,6 +1,9 @@
 # Project-based ignore
 test
 test2
+hi
+hi2
+_tmp
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
