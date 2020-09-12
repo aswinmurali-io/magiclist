@@ -15,7 +15,6 @@ import random
 import _thread
 import threading
 import warnings
-import varname
 
 from magiclist.exceptions import MagicListLocked, MagicListKeyNotFound
 
@@ -26,7 +25,7 @@ warnings.simplefilter('always')
 
 
 class Magic(object):
-    def __init__(self, name: str = None, items: iter = None):
+    def __init__(self, name: str, items: iter = None):
         """Magic is the class that contains the magiclist datatype.
 
         Args:
@@ -35,8 +34,6 @@ class Magic(object):
         super().__init__()
         self.memory: dict = {}
         self.lock: bool = False
-        if name is not None:
-            self.name = varname.nameof(self)
         self.name: list = [name]
         self.LENGTH_FILE: str = f'{name}/length'
         self.POINTER_PATH: str = f'{name}/pointers'
