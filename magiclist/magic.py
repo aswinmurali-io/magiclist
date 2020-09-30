@@ -38,7 +38,7 @@ class Magic(object):
         self.new: bool = self.load()
 
         if items is not None:
-            self.append_parallel(items)
+            self.inserts(items)
 
     def __len__(self) -> int:
         # TODO: add proper len listener
@@ -213,7 +213,7 @@ class Magic(object):
         """
         return [self.get(key) for key in keys]
 
-    def __purge(self) -> None:
+    def __purge_thread(self) -> None:
         try:
             low_access: int = min([self.memory[key][1] for key in [i for i in self.memory]])
             for key in list(self.memory):
@@ -226,4 +226,4 @@ class Magic(object):
     def purge(self) -> None:
         """The purge() function will release less used elements from memory reducing the memory size of the list.
         """
-        threading.Thread(target=self.__purge, args=(), daemon=True).start()
+        threading.Thread(target=self.__purge_thread, args=(), daemon=True).start()
