@@ -1,2 +1,4 @@
 cython==0.29.1
 sphinx==3.2.1
+gunicorn
+flask

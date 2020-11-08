@@ -698,6 +698,10 @@ from magiclist import Magic
 
 app = Flask(__name__)
 
+# if __name__ == '__main__':
+magic = Magic('xsep')
+# put_data()
+
 
 @app.route('/<index>')
 def main(index):
@@ -714,7 +718,4 @@ def put_data():
         magic[i] = data[i]
 
 
-if __name__ == '__main__':
-    magic = Magic('xsep')
-    # put_data()
-    app.run()
+app.run()
