@@ -3,7 +3,7 @@ from magiclist import Magic
 
 # creating a magic list, the 'test' string is used as a identifier for sharing instance
 test = Magic("hi")
-test2 = Magic("hi2")
+# test2 = Magic("hi2")
 
 # test += test2
 
@@ -22,3 +22,12 @@ test2 = Magic("hi2")
 # del test['o']
 
 # deepcopy(test2, test)
+
+for i in range(20):
+    test[str(i)] = i
+
+
+print(test.get_keys())
+
+test["Aswin"] = 0
+

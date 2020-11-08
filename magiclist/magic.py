@@ -9,6 +9,7 @@ BIG data, perfect for data science! Multiple programs can share the same magicli
 data with their own in-memory cache!
 """
 
+import json
 import os.path
 import _thread
 import threading
@@ -51,6 +52,8 @@ class Magic(object):
         return self.get(key)
 
     def __setitem__(self, key: str, item: str) -> None:
+        if type(item) == dict:
+            return self.insert_dict(key, item)
         return self.insert(key, item)
 
     def __delitem__(self, key: str) -> bool:
@@ -71,7 +74,7 @@ class Magic(object):
             pass
         for name in self.name:
             try:
-                os.remove(f'{name}/{key}')
+                os.remove(f'{name}/{key[0]}/{key}')
                 return True
             except FileNotFoundError:
                 warnings.warn(f'Unable to delete the key "{key}" from disk in magiclist "{self.name[0]}"', MagicListKeyNotFound)
@@ -150,10 +153,24 @@ class Magic(object):
             return self.sync(key, item, 0, 0)
         warnings.warn(f"Magiclist {self.name[0]} is currently in locked state. Cannot modify values, please unlock the list", MagicListLocked)
 
+    def insert_dict(self, key: str, data: dict) -> None:
+        """The insert_dict(...) function can be used to insert a dict element into the magic list
+
+        Args:
+            key (str): The key used for accessing the data.
+            data (dict): The dict data to be inserted in the magic list with that above key as reference.
+        """
+        self.insert(key, f'__MAGIC_DICT({json.dumps(data)})')
+
     @staticmethod
     def __sync_thread(name, key, item, access_count, trend_ratio):
-        with open(f'{name}/{key}', 'w') as file:
+        if not os.path.exists(f'{name}/{key[0]}/'):
+            os.mkdir(f'{name}/{key[0]}/')
+        with open(f'{name}/{key[0]}/{key}', 'w') as file:
             file.write(f'{item} {access_count} {trend_ratio}')
+
+    # def search(self, keyword: str) -> list:
+    #     keyword[0]
 
     def sync(self, key: str, item: any, access_count: int, trend_ratio: int) -> None:
         """The sync function can be used to sync the data changes given in the function args to the in-memory magic
@@ -190,10 +207,12 @@ class Magic(object):
             try:
                 self.memory[key][1] += 1
                 self.sync(key, self.memory[key][0], self.memory[key][1], self.memory[key][2])
+                if self.memory[key][0].find('__MAGIC_DICT') > -1 and self.memory[key][0][-1] == ')':
+                    return [json.loads(self.memory[key][0][13:-1]), self.memory[key][1], self.memory[key][2]]
                 return self.memory[key]
             except KeyError:
                 try:
-                    with open(f'{name}/{key}') as data:
+                    with open(f'{name}/{key[0]}/{key}') as data:
                         data = data.read().split()
                         self.sync(key, data[0], int(data[1]) + 1, int(data[2]))
                     return self.memory[key]
@@ -222,6 +241,11 @@ class Magic(object):
         except ValueError:
             # ValueError: min() arg is an empty sequence
             return
+
+    def purge_all(self) -> None:
+        """The purge_all() function will release all the memory.
+        """
+        self.memory.clear()
 
     def purge(self) -> None:
         """The purge() function will release less used elements from memory reducing the memory size of the list.
