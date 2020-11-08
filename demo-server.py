@@ -702,6 +702,7 @@ app = Flask(__name__)
 
 # put_data()
 
+import os
 
 @app.route('/<index>')
 def main(index):
@@ -719,4 +720,5 @@ def put_data():
 
 if __name__ == "__main__":
     magic = Magic('xsep')
-    app.run(host='0.0.0.0')
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port)
