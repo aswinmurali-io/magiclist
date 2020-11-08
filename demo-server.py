@@ -699,7 +699,7 @@ from magiclist import Magic
 app = Flask(__name__)
 
 # if __name__ == '__main__':
-magic = Magic('xsep')
+
 # put_data()
 
 
@@ -717,5 +717,6 @@ def put_data():
     for i in data:
         magic[i] = data[i]
 
-
-app.run(host='0.0.0.0')
+if __name__ == "__main__":
+    magic = Magic('xsep')
+    app.run(host='0.0.0.0')
