@@ -718,4 +718,4 @@ def put_data():
         magic[i] = data[i]
 
 
-app.run()
+app.run(host='0.0.0.0')
