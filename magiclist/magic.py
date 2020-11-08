@@ -108,7 +108,7 @@ class Magic(object):
             return self
         return None
 
-    def get_keys(self) -> list:
+    def get_keys(self, alpa) -> list:
         """The get_keys() function will return all the keys in that current list.
 
         Returns:
@@ -116,7 +116,7 @@ class Magic(object):
         """
         keys = []
         for name in self.name:
-            keys.extend([key for key in os.listdir(name)])
+            keys.extend([key for key in os.listdir(f'{name}/{alpa}')])
         return keys
 
     def load(self) -> bool:
@@ -165,9 +165,12 @@ class Magic(object):
     @staticmethod
     def __sync_thread(name, key, item, access_count, trend_ratio):
         if not os.path.exists(f'{name}/{key[0]}/'):
-            os.mkdir(f'{name}/{key[0]}/')
+            try:
+                os.mkdir(f'{name}/{key[0]}/')
+            except FileExistsError:
+                pass
         with open(f'{name}/{key[0]}/{key}', 'w') as file:
-            file.write(f'{item} {access_count} {trend_ratio}')
+            file.write(f'{item}\n{access_count}\n{trend_ratio}')
 
     # def search(self, keyword: str) -> list:
     #     keyword[0]
@@ -213,8 +216,10 @@ class Magic(object):
             except KeyError:
                 try:
                     with open(f'{name}/{key[0]}/{key}') as data:
-                        data = data.read().split()
+                        data = data.read().split('\n')
                         self.sync(key, data[0], int(data[1]) + 1, int(data[2]))
+                    if self.memory[key][0].find('__MAGIC_DICT') > -1 and self.memory[key][0][-1] == ')':
+                        return [json.loads(self.memory[key][0][13:-1]), self.memory[key][1], self.memory[key][2]]
                     return self.memory[key]
                 except FileNotFoundError:
                     pass
@@ -241,11 +246,6 @@ class Magic(object):
         except ValueError:
             # ValueError: min() arg is an empty sequence
             return
-
-    def purge_all(self) -> None:
-        """The purge_all() function will release all the memory.
-        """
-        self.memory.clear()
 
     def purge(self) -> None:
         """The purge() function will release less used elements from memory reducing the memory size of the list.

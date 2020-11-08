@@ -692,12 +692,29 @@ data = {
     }
 }
 
-import sys
+from flask import Flask
+from flask import jsonify
 from magiclist import Magic
 
-magic = Magic('test')
+app = Flask(__name__)
 
-for i in data:
-    magic[i] = data[i]
 
-print(magic["product01"])
+@app.route('/<index>')
+def main(index):
+    return jsonify(magic[index])
+
+
+@app.route('/get_keys/<alpa>')
+def get_keys(alpa):
+    return jsonify(magic.get_keys(alpa))
+
+
+def put_data():
+    for i in data:
+        magic[i] = data[i]
+
+
+if __name__ == '__main__':
+    magic = Magic('xsep')
+    # put_data()
+    app.run()
