@@ -692,8 +692,7 @@ data = {
     }
 }
 
-from flask import Flask
-from flask import jsonify
+from flask import Flask, request, jsonify, json
 from magiclist import Magic
 from flask_cors import CORS
 
@@ -705,6 +704,7 @@ CORS(app)
 # put_data()
 
 import os
+import base64
 import random
 
 
@@ -725,6 +725,14 @@ def get(number):
 @app.route('/get_keys/<alpa>')
 def get_keys(alpa):
     return jsonify(magic.get_keys(alpa))
+
+
+@app.route('/add/<productId>', methods=["GET", "POST"])
+def add_product(productId):
+    if request.method == "POST":
+        magic[productId] = request.form.to_dict()
+    print(productId, request.form.to_dict())
+    return jsonify(request.form.to_dict())
 
 
 def put_data():
