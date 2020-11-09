@@ -705,10 +705,17 @@ CORS(app)
 # put_data()
 
 import os
+import random
 
 @app.route('/<index>')
 def main(index):
     return jsonify(magic[index])
+
+
+@app.route('/get/<number>')
+def get(number):
+    list = magic.get_keys('p')
+    return jsonify(random.sample([magic[index] for index in list], number))
 
 
 @app.route('/get_keys/<alpa>')
