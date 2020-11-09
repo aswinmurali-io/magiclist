@@ -729,8 +729,8 @@ def get_keys(alpa):
 
 @app.route('/add/<productId>', methods=["GET", "POST"])
 def add_product(productId):
-    if request.method == "POST":
-        magic[productId] = request.form.to_dict()
+    # if request.method == "POST":
+    magic[productId] = request.form.to_dict()
     print(productId, request.form.to_dict())
     return jsonify(request.form.to_dict())
 
