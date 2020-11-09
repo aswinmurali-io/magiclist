@@ -707,6 +707,7 @@ CORS(app)
 import os
 import random
 
+
 @app.route('/<index>')
 def main(index):
     return jsonify(magic[index])
@@ -714,8 +715,11 @@ def main(index):
 
 @app.route('/get/<number>')
 def get(number):
-    list = magic.get_keys('p')
-    return jsonify(random.sample([magic[index] for index in list], number))
+    all = random.sample(magic.get_keys('p'), int(number))
+    data = {}
+    for index in all:
+        data[index] = magic[index]
+    return jsonify(data)
 
 
 @app.route('/get_keys/<alpa>')
@@ -726,6 +730,7 @@ def get_keys(alpa):
 def put_data():
     for i in data:
         magic[i] = data[i]
+
 
 if __name__ == "__main__":
     magic = Magic('xsep')
