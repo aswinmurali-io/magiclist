@@ -735,6 +735,11 @@ def add_product(productId):
     print(productId, data)
     return jsonify(data)
 
+@app.route('/remove/<productId>', methods=["GET", "POST"])
+def remove_product(productId):
+    magic.remove(productId)
+    return ''
+
 
 def put_data():
     for i in data:
