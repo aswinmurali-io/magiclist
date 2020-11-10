@@ -723,7 +723,7 @@ def get(number):
 
 @app.route('/getall')
 def get_all():
-    return jsonify(magic)
+    return jsonify(magic.memory)
 
 
 @app.route('/get_keys/<alpa>')
