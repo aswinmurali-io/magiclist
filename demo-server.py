@@ -721,9 +721,14 @@ def get(number):
         data[index] = magic[index]
     return jsonify(data)
 
+
 @app.route('/getall')
 def get_all():
-    return jsonify(magic.memory)
+    all = magic.get_keys('p')
+    data = {}
+    for index in all:
+        data[index] = magic[index]
+    return jsonify(data)
 
 
 @app.route('/get_keys/<alpa>')
@@ -738,6 +743,7 @@ def add_product(productId):
         magic[productId] = data
     print(productId, data)
     return jsonify(data)
+
 
 @app.route('/remove/<productId>', methods=["GET", "POST"])
 def remove_product(productId):
