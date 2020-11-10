@@ -12,6 +12,7 @@ data with their own in-memory cache!
 import json
 import os.path
 import _thread
+import time
 import threading
 import warnings
 
@@ -169,6 +170,7 @@ class Magic(object):
                 os.mkdir(f'{name}/{key[0]}/')
             except FileExistsError:
                 pass
+        time.sleep(0.001)
         with open(f'{name}/{key[0]}/{key}', 'w') as file:
             file.write(f'{item}\n{access_count}\n{trend_ratio}')
 
@@ -186,7 +188,9 @@ class Magic(object):
             trend_ratio (int): The access_count w.r.t to a specific time interval.
         """
         self.memory[key] = [item, access_count, trend_ratio]
-        _thread.start_new_thread(self.__sync_thread, (self.name[0], key, item, access_count, trend_ratio))
+        # _thread.start_new_thread(self.__sync_thread, (self.name[0], key, item, access_count, trend_ratio))
+        e = threading.Thread(target=self.__sync_thread, args=(self.name[0], key, item, access_count, trend_ratio), daemon=True)
+        e.start()
 
     def inserts(self, items: dict) -> None:
         """The inserts(...) function can be used to batch insert elements to the list.
