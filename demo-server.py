@@ -692,20 +692,15 @@ data = {
     }
 }
 
-from flask import Flask, request, jsonify, json
+import os
+import random
+
+from flask import Flask, request, jsonify
 from magiclist import Magic
 from flask_cors import CORS
 
 app = Flask(__name__)
 CORS(app)
-
-# if __name__ == '__main__':
-
-# put_data()
-
-import os
-import base64
-import random
 
 
 @app.route('/<index>')
