@@ -721,6 +721,10 @@ def get(number):
         data[index] = magic[index]
     return jsonify(data)
 
+@app.route('/getall')
+def get_all():
+    return jsonify(magic)
+
 
 @app.route('/get_keys/<alpa>')
 def get_keys(alpa):
